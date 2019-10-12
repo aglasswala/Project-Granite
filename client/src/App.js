@@ -24,9 +24,10 @@ class App extends Component {
                   style={{height: "100vh"}}
                 >
                     <Grid item>
-                        <TextField
-                            placeholder="this is something great"
-                        />
+                        <form action="http://localhost:3001/upload" method="post" enctype="multipart/form-data">
+                            <input type="file" name="pic" accept="image/*" />
+                            <input type="submit" />
+                        </form>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" className={classes.button}>
