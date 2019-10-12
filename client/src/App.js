@@ -1,7 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Grid, TextField } from '@material-ui/core'
 
+<<<<<<< HEAD
 function App() {
   return (
     <div className="App">
@@ -21,6 +21,28 @@ function App() {
       </header>
     </div>
   );
+=======
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  alignItems="center"
+                  style={{height: "100vh"}}
+                >
+                    <Grid item>
+                        <TextField
+                            placeholder="this is something great"
+                        />
+                    </Grid>
+                </Grid>
+            </div>
+        )
+    }
+>>>>>>> 7b3829b670780ad5ff36dc1a722c639041343886
 }
 
-export default App;
+export default App
