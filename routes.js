@@ -1,3 +1,6 @@
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' })
+
 const recognitionController = require('./controllers/recognitionController')
 
 module.exports = (router) => {
@@ -7,5 +10,5 @@ module.exports = (router) => {
 		})
 	})
 
-	router.post('/upload', recognitionController.uploadImage)
+	router.post('/upload', upload.single('pic'), recognitionController.uploadImage)
 }
