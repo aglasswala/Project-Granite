@@ -3,7 +3,7 @@ var fs = require('fs');
 
 function base64_encode(file) {
     var bitmap = fs.readFileSync(file);
-    return new Buffer(bitmap).toString('base64');
+	return new Buffer(bitmap).toString('base64');
 }
 
 module.exports = {
