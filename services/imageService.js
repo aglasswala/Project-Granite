@@ -1,6 +1,6 @@
 const clarifai = require('clarifai');
-const APIKEY = process.env.TRANSLATE_API;
-const googleTranslate = require('google-translate')("AIzaSyDQZ7YH4cMlmzucOIASfsbqL-Rjw4lQvLA");
+// const googleTranslate = require('google-translate')("AIzaSyDQZ7YH4cMlmzucOIASfsbqL-Rjw4lQvLA");
+const translateService = require('./translateService')
 const app = new clarifai.App({
 	apiKey: "356f20daf55c4c3db4772c5599c35d46"
 })
@@ -13,19 +13,14 @@ module.exports = {
 		     		return generalModel.predict(base64)
 		    	})
 		    	.then(response => {
-					var concepts = response['outputs'][0]['data']['concepts'][0]['name']
+					let concepts = response['outputs'][0]['data']['concepts'][0]['name']
 					return Promise.all([concepts])
 					.then(concepts =>{
-						googleTranslate.translate(concepts, 'en', 'de', function(err, translation){
-								var translatedword = translation.translatedText;
-								if(err){
-									console.log(err);
-								}
-								return resolve(concepts + " is translated in German to " + translatedword);
-							})
-						
+						let word = translateService.translate(concepts);
+						return resolve(word);
 					})
-				})
+					
+				})	
 		      	.catch(err => {
 		      		console.log(err)
 		      		return reject(err)
