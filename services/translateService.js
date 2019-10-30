@@ -1,7 +1,7 @@
 const googleTranslate = require('google-translate')("AIzaSyDQZ7YH4cMlmzucOIASfsbqL-Rjw4lQvLA");
 
-
-    const translate = async (words) =>{
+module.exports = {
+    translate: async (words) =>{
         let list = [];
         for(let i = 0; i < words.length; i++){
             await new Promise((resolve,reject) =>{
@@ -15,11 +15,8 @@ const googleTranslate = require('google-translate')("AIzaSyDQZ7YH4cMlmzucOIASfsb
             })
             
         }
-            return list;
-            
+        return list;
     }
-module.exports = {
-    translate
 }
     
 
