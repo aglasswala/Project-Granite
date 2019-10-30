@@ -1,5 +1,4 @@
 const clarifai = require('clarifai');
-// const googleTranslate = require('google-translate')("AIzaSyDQZ7YH4cMlmzucOIASfsbqL-Rjw4lQvLA");
 const translateService = require('./translateService')
 const app = new clarifai.App({
 	apiKey: "356f20daf55c4c3db4772c5599c35d46"
@@ -13,14 +12,21 @@ module.exports = {
 		     		return generalModel.predict(base64)
 		    	})
 		    	.then(response => {
-					let concepts = response['outputs'][0]['data']['concepts'][0]['name']
-					return Promise.all([concepts])
-					.then(concepts =>{
-						let word = translateService.translate(concepts);
-						return resolve(word);
+					let concepts = response['outputs'][0]['data']['concepts']
+					let words = [];
+					concepts.forEach( (item, index) =>{
+						words.push(item.name);
 					})
-					
-				})	
+					return Promise.all(words)
+					.then(async words =>{
+						let list = [];
+						let translatedWords =  await translateService.translate(words);
+						for(let i = 0; i < words.length; i++){
+							list.push(words[i] + " " + translatedWords[i]);
+						}
+						return resolve(list);
+					})
+				})
 		      	.catch(err => {
 		      		console.log(err)
 		      		return reject(err)
