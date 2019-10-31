@@ -5,7 +5,7 @@ dotenv.config();
 const getLabels = async (image) =>{
   let list =[];
     // console.log(process.env.PORT);
-    AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAIG5N3YTJV5POX6PQ', secretAccessKey: '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'});
+    AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAIN3OFVXQPTUQO2ZQ', secretAccessKey: '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'});
     const client = new AWS.Rekognition();
     const params = {
       Image: {

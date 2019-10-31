@@ -1,7 +1,7 @@
 const imageService = require('../services/imageService')
 const rekognitionService = require('../services/rekognitionService')
 const AWS = require('aws-sdk')
-AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAIG5N3YTJV5POX6PQ', secretAccessKey: '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'})
+AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAIN3OFVXQPTUQO2ZQ', secretAccessKey: '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'})
 var fs = require('fs');
 const path = require('path')
 const s3 = new AWS.S3();
@@ -33,14 +33,18 @@ module.exports = {
 		});
 		params.Body = fileStream;
 		params.Key = path.basename(req.file.originalname);
-		await s3.upload(params, (err, data) =>{
-			if(err){
-				console.log(err);
-			}
-			if(data){
-				console.log(data);
-			}
+		await new Promise((resolve,reject) =>{
+			s3.upload(params, (err, data) =>{
+				if(err){
+					reject(err);
+				}
+				if(data){
+					console.log(data);
+					resolve(data);
+				}
+			})
 		})
+		
 		return rekognitionService.getLabels(params)
 			.then(result => {
 				return res.status(200).send(result)
