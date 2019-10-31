@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const router = require('./routes');
 require("dotenv").config();
+
 function startServer(server) {
 	const { PORT } = process.env
 	console.log(PORT);
@@ -17,6 +18,7 @@ async function init() {
 
 	app.use(bodyParser.json())
 	app.use(cors())
+
 	router(app)
 	startServer(app)
 }

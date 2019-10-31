@@ -1,4 +1,5 @@
 const googleTranslate = require('google-translate')(process.env.TRANSLATE_API);
+
 module.exports = {
     translate: async (words) =>{
         let list = [];
@@ -14,9 +15,8 @@ module.exports = {
             })
             
         }
-            console.log(list)
-            return list;
-            
+      
+        return list;
     }
 }
     

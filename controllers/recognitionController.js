@@ -6,8 +6,9 @@ AWS.config.update({region: process.env.REGION, accessKeyId: process.env.AWSACCES
 var fs = require('fs');
 const path = require('path')
 const s3 = new AWS.S3();
-function base64_encode(file) {
-    var bitmap = fs.readFileSync(file);
+
+const base64_encode = (file) => {
+    const bitmap = fs.readFileSync(file);
 	return new Buffer(bitmap).toString('base64');
 }
 
@@ -22,7 +23,7 @@ module.exports = {
     			return res.status(400).send(err)
     		})
 	},
-	uploadImageS3: async(req,res) =>{
+	uploadImageS3: async (req,res) =>{
 		let params = {
 			Bucket: 'granite.project',
 			Key: '',
@@ -34,17 +35,18 @@ module.exports = {
 		});
 		params.Body = fileStream;
 		params.Key = path.basename(req.file.originalname);
-		await new Promise((resolve,reject) =>{
-			s3.upload(params, (err, data) =>{
-				if(err){
+		await new Promise((resolve,reject) => {
+			s3.upload(params, (err, data) => {
+				if (err) { 
 					reject(err);
 				}
-				if(data){
+				if (data) {
 					console.log(data);
 					resolve(data);
 				}
 			})
 		})
+			.catch(err => console.log(err))
 		
 		const stuff = await rekognitionService.getLabels(params)
 								.catch(err => res.status(400).send({err}))
