@@ -17,6 +17,7 @@ async function init() {
 
 	app.use(bodyParser.json())
 	app.use(cors())
+	
 	router(app)
 	startServer(app)
 }
