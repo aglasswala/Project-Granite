@@ -3,7 +3,8 @@ const dotenv = require('dotenv')
 
 const getLabels = async (image) =>{
   let list =[];
-    AWS.config.update({region: 'us-east-2', accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY});
+    AWS.config.update({region: process.env.REGION, accessKeyId: process.env.AWSACCESSKEYID, secretAccessKey: process.env.AWSSECRETACCESSKEY});
+
     const client = new AWS.Rekognition();
     const params = {
       Image: {

@@ -1,7 +1,8 @@
 const imageService = require('../services/imageService')
 const rekognitionService = require('../services/rekognitionService')
+const translateService = require('../services/translateService')
 const AWS = require('aws-sdk')
-AWS.config.update({region: 'us-east-2', accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY})
+AWS.config.update({region: process.env.REGION, accessKeyId: process.env.AWSACCESSKEYID, secretAccessKey: process.env.AWSSECRETACCESSKEY})
 var fs = require('fs');
 const path = require('path')
 const s3 = new AWS.S3();
@@ -47,12 +48,11 @@ module.exports = {
 		})
 			.catch(err => console.log(err))
 		
-		return rekognitionService.getLabels(params)
-			.then(result => {
-				return res.status(200).send(result)
-			})
-			.catch(err => {
-				return res.status(400).send(err)
-			})
+		const stuff = await rekognitionService.getLabels(params)
+								.catch(err => res.status(400).send({err}))
+		const stuff2 = await translateService.translate(stuff)
+								.catch(err => res.status(400).send({err}))
+
+		return res.status(200).send(stuff2)
 	}
 }
