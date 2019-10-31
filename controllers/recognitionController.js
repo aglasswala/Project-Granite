@@ -45,6 +45,7 @@ module.exports = {
 				}
 			})
 		})
+			.catch(err => console.log(err))
 		
 		return rekognitionService.getLabels(params)
 			.then(result => {
