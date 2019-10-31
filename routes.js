@@ -10,5 +10,5 @@ module.exports = (router) => {
 		})
 	})
 
-	router.post('/upload', upload.single('pic'), recognitionController.uploadImage)
+	router.post('/upload', upload.single('file'), recognitionController.uploadImage)
 }
