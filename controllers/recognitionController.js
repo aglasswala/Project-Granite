@@ -1,12 +1,13 @@
 const imageService = require('../services/imageService')
 const rekognitionService = require('../services/rekognitionService')
 const AWS = require('aws-sdk')
-AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAIN3OFVXQPTUQO2ZQ', secretAccessKey: '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'})
+AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAWOYFVCGCY3GPJLFD', secretAccessKey: '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'})
 var fs = require('fs');
 const path = require('path')
 const s3 = new AWS.S3();
-function base64_encode(file) {
-    var bitmap = fs.readFileSync(file);
+
+const base64_encode = (file) => {
+    const bitmap = fs.readFileSync(file);
 	return new Buffer(bitmap).toString('base64');
 }
 
@@ -21,7 +22,7 @@ module.exports = {
     			return res.status(400).send(err)
     		})
 	},
-	uploadImageS3: async(req,res) =>{
+	uploadImageS3: async (req,res) =>{
 		let params = {
 			Bucket: 'granite.project',
 			Key: '',
@@ -33,12 +34,12 @@ module.exports = {
 		});
 		params.Body = fileStream;
 		params.Key = path.basename(req.file.originalname);
-		await new Promise((resolve,reject) =>{
-			s3.upload(params, (err, data) =>{
-				if(err){
+		await new Promise((resolve,reject) => {
+			s3.upload(params, (err, data) => {
+				if (err) { 
 					reject(err);
 				}
-				if(data){
+				if (data) {
 					console.log(data);
 					resolve(data);
 				}
@@ -47,6 +48,7 @@ module.exports = {
 		
 		return rekognitionService.getLabels(params)
 			.then(result => {
+				
 				return res.status(200).send(result)
 			})
 			.catch(err => {
