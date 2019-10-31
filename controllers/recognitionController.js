@@ -1,7 +1,7 @@
 const imageService = require('../services/imageService')
 const rekognitionService = require('../services/rekognitionService')
 const AWS = require('aws-sdk')
-AWS.config.update({region: 'us-east-2', accessKeyId: 'AKIAWOYFVCGCY3GPJLFD', secretAccessKey: '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'})
+AWS.config.update({region: 'us-east-2', accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY})
 var fs = require('fs');
 const path = require('path')
 const s3 = new AWS.S3();
@@ -48,7 +48,6 @@ module.exports = {
 		
 		return rekognitionService.getLabels(params)
 			.then(result => {
-				
 				return res.status(200).send(result)
 			})
 			.catch(err => {
