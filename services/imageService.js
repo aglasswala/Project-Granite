@@ -22,7 +22,7 @@ module.exports = {
 						let list = [];
 						let translatedWords =  await translateService.translate(words);
 						for(let i = 0; i < words.length; i++){
-							list.push(words[i] + " " + translatedWords[i]);
+							list.push(" " + words[i] + " " + translatedWords[i]);
 						}
 						return resolve(list);
 					})

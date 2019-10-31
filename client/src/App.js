@@ -1,28 +1,12 @@
 import React, { Component } from 'react'
-
-import { Grid } from '@material-ui/core'
+import Dashboard from './views/Dashboard.js'
 
 class App extends Component {
-    render() {
-        return (
-            <div>
-                <Grid
-                  container
-                  direction="column"
-                  justify="center"
-                  alignItems="center"
-                  style={{height: "100vh"}}
-                >
-                    <Grid item>
-                        <form action="http://localhost:3001/upload" method="post" enctype="multipart/form-data">
-                            <input type="file" name="pic" accept="image/*" />
-                            <input type="submit" />
-                        </form>
-                    </Grid>
-                </Grid>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <Dashboard />
+    )
+  }
 }
 
 export default App

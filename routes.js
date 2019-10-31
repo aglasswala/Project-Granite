@@ -8,8 +8,7 @@ module.exports = (router) => {
 			"yes": "bitch"
 		})
 	})
-
+  
 	// router.post('/upload', upload.single('pic'), recognitionController.uploadImage)
 	router.post('/upload', upload.single('pic'), recognitionController.uploadImageS3)
-
 }
