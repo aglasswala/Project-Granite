@@ -1,11 +1,11 @@
-const googleTranslate = require('google-translate')(process.env.TRANSLATE_API);
+const googleTranslate = require('google-translate')(process.env.GOOGLE_TRANSLATE_API_KEY);
 
 module.exports = {
-    translate: async (words) =>{
+    translate: async (words, lang) =>{
         let list = [];
         for(let i = 0; i < words.length; i++){
             await new Promise((resolve,reject) =>{
-                googleTranslate.translate(words[i], 'en', 'ca', (err, translation) => {
+                googleTranslate.translate(words[i], 'en', lang, (err, translation) => {
                     if(err){
                         reject(err);
                     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Grid, Button, Paper, withStyles } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -11,13 +11,16 @@ class Dashboard extends Component {
     file: { name: "" },
     names: [],
     filePreview: null,
-    openMenu: false
+    openMenu: false,
+    selectedLang: "ga",
+    errors: {}
   }
 
   onChangeHandler = event => {
+    const file = this.state.filePreview
     this.setState({
       file: event.target.files[0],
-      filePreview: URL.createObjectURL(event.target.files[0])
+      filePreview: file || URL.createObjectURL(event.target.files[0])
     })
   } 
 
@@ -25,6 +28,7 @@ class Dashboard extends Component {
     const data = new FormData()
 
     data.append('file', this.state.file)
+    data.append('lang', this.state.selectedLang)
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -32,7 +36,11 @@ class Dashboard extends Component {
     }
     uploadFile(data, config)
       .then(response => this.setState({ names: response.data }))
-      .catch(err => console.log(err))
+      .catch(err => {
+        this.setState({
+          errors: err
+        })
+      })
   }
 
   handleMenuClick = (state) => {
@@ -41,8 +49,15 @@ class Dashboard extends Component {
     })
   }
 
+  changeLanguage = event => {
+    this.setState({
+      selectedLang: event.target.value
+    })
+  }
+
   render() {
     const { classes } = this.props
+    console.log(this.state.errors)
     return (
         <div>
           <Grid
@@ -75,6 +90,18 @@ class Dashboard extends Component {
                         style={{height: "90%"}}
                       >
                         <Grid item>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={this.state.selectedLang}
+                            onChange={this.changeLanguage}
+                          >
+                            <MenuItem value={"en"}>EN</MenuItem>
+                            <MenuItem value={"ca"}>CA</MenuItem>
+                            <MenuItem value={"ga"}>GA</MenuItem>
+                          </Select>
+                        </Grid>
+                        <Grid item>
                           <div className={classes.wrapper}>
                             <input
                               accept="image/*"
@@ -105,6 +132,7 @@ class Dashboard extends Component {
             <Grid item xs={12} md={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
+                  {this.state.error}
                   {this.state.names.map((name, key) => {
                     return <p key={key}> {name} </p>
                   })}
