@@ -1,3 +1,5 @@
+import { withTheme } from "@material-ui/styles";
+
 const navbarStyles = theme => ({
 	root: {
         flexGrow: 1,
@@ -7,7 +9,12 @@ const navbarStyles = theme => ({
       },
       title: {
         flexGrow: 1,
+        paddingLeft: 20,
       },
+      icon: {
+        fontSize: 45,
+        paddingLeft: 20,
+      }
 })
 
 export default navbarStyles
