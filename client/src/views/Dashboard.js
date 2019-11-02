@@ -45,6 +45,7 @@ class Dashboard extends Component {
     const { classes } = this.props
     return (
         <div>
+          <div className={classes.toolbar} />
           <Grid
             container
             direction="row"

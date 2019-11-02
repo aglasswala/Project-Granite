@@ -14,13 +14,13 @@ const NavBar = (props) => {
     const { classes } = props
     return ( 
         <div>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    Welcome
+                    Project Granite
                 </Typography>
                 <Button color="inherit">Login</Button>
                 </Toolbar>

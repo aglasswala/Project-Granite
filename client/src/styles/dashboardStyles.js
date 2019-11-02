@@ -8,7 +8,8 @@ const dashboardStyles = theme => ({
 	img: {
 		height: "60vh",
 		width: "100%"
-	}
+	},
+	toolbar: theme.mixins.toolbar,
 })
 
 export default dashboardStyles
