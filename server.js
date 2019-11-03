@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+require("dotenv").config();
 
 const router = require('./routes');
 
@@ -17,7 +18,7 @@ async function init() {
 
 	app.use(bodyParser.json())
 	app.use(cors())
-	
+
 	router(app)
 	startServer(app)
 }

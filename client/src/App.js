@@ -7,10 +7,10 @@ import Dashboard from './views/Dashboard.js'
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <NavBar />
-        <Dashboard />
-      </Fragment>
+    	<Fragment>
+	    	<NavBar />
+	    	<Dashboard />
+	    </Fragment>
     )
   }
 }

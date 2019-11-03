@@ -5,7 +5,6 @@ const app = new clarifai.App({
 })
 
 module.exports = {
-	
 	imageUpload: (base64) => new Promise((resolve, reject) => {
 			app.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
 		    	.then(generalModel => {
@@ -27,9 +26,6 @@ module.exports = {
 						return resolve(list);
 					})
 				})
-		      	.catch(err => {
-		      		console.log(err)
-		      		return reject(err)
-		      	})
+		      	.catch(err => reject(err))
 		})
 }
