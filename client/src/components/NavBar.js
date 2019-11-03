@@ -19,13 +19,13 @@ const NavBar = (props) => {
         <div>
             <AppBar position="fixed">
                 <Toolbar>
-                    <Icon className={classes.icon}>
+                    <IconButton href="#"className={classes.icon}>
                         <Avatar src="https://image.flaticon.com/icons/svg/484/484531.svg"/>
-                    </Icon>
+                    </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         Project Granite
                     </Typography>
-                    <IconButton href="github.com/aglasswala/Project-Granite">
+                    <IconButton href="//github.com/aglasswala/Project-Granite" target="_blank" title="Github Repository" aria-label="Github Repository">
                         <GitHub color="white" className={classes.icon} />
                         
                     </IconButton>
