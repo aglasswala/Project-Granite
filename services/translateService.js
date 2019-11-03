@@ -2,6 +2,9 @@ const googleTranslate = require('google-translate')(process.env.GOOGLE_TRANSLATE
 
 module.exports = {
     translate: async (words, lang) =>{
+        if (lang === "en") {
+            return words
+        }
         let list = [];
         for(let i = 0; i < words.length; i++){
             await new Promise((resolve,reject) =>{

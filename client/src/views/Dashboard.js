@@ -141,7 +141,6 @@ class Dashboard extends Component {
             <Grid item xs={12} md={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
-                  {this.state.error}
                   {this.state.names.map((name, key) => {
                     return <p key={key}> {name} </p>
                   })}
