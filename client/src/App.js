@@ -1,10 +1,14 @@
-import React, { Component } from 'react'
-import Dashboard from './views/Dashboard.js'
+import React, { Component, Fragment } from 'react'
+import Dashboard from './views/Dashboard'
+import NavBar from './components/NavBar'
 
 class App extends Component {
   render() {
     return (
-      <Dashboard />
+    	<Fragment>
+	    	<NavBar />
+	    	<Dashboard />
+	    </Fragment>
     )
   }
 }
