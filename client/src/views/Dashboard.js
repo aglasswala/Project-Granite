@@ -66,6 +66,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.state.selectedLang);
     const { classes } = this.props
     return (
         <div>
@@ -105,7 +106,7 @@ class Dashboard extends Component {
                             onChange={this.changeLanguage}
                           >
                             {languages.map((lang, key) => {
-                              return <MenuItem key={key} value={lang}>{lang}</MenuItem>
+                              return <MenuItem key={key} value={lang.code}>{lang.language}</MenuItem>
                             })}
                           </Select>
                         </Grid>
