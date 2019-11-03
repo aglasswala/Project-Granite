@@ -8,6 +8,14 @@ const dashboardStyles = theme => ({
 	img: {
 		height: "60vh",
 		width: "100%"
+	},
+	bounding_box: {
+		position: "absolute",
+		boxShadow: "inset 0 0 0 3px #149df2",
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "center",
+		cursor: "pointer"
 	}
 })
 

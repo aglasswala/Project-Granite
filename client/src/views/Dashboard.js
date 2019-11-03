@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -15,7 +15,8 @@ class Dashboard extends Component {
     filePreview: null,
     openMenu: false,
     selectedLang: "ga",
-    errors: {}
+    errors: {},
+    box: {}
   }
 
   onChangeHandler = event => {
@@ -26,7 +27,7 @@ class Dashboard extends Component {
     })
   } 
 
-  onClickHandler = () => {
+  onClickHandler = async () => {
     const data = new FormData()
 
     data.append('file', this.state.file)
@@ -44,13 +45,14 @@ class Dashboard extends Component {
       })
       return 
     }
-    uploadFile(data, config)
+    await uploadFile(data, config)
       .then(response => this.setState({ names: response.data }))
       .catch(err => {
         this.setState({
           errors: err
         })
       })
+    this.calculateFaceLocation()
   }
 
   handleMenuClick = (state) => {
@@ -65,8 +67,27 @@ class Dashboard extends Component {
     })
   }
 
+  calculateFaceLocation = () => {
+    // let clar = this.state.names.filter(name => name.instance.length !== 0)
+
+    // clar = clar[0]
+
+    // const image = document.getElementById('inputImage')
+    // const width = Number(image.width);
+    // const height = Number(image.height);
+    // this.setState({
+    //   box: {
+    //     leftCol: clar.BoundingBox.Left * width,
+    //     topRow: clar.BoundingBox.Height * height,
+    //     rightCol: width - (clar.BoundingBox.Width * width),
+    //     bottomRow: height - (clar.BoundingBox.Width * height)
+    //   }
+    // })
+  }
+
   render() {
     const { classes } = this.props
+    const { box } = this.state
     return (
         <div>
           <Grid
@@ -86,7 +107,8 @@ class Dashboard extends Component {
                   >
                     <Grid item>
                       <div className={classes.wrapper}>
-                        <img src={this.state.filePreview} className={classes.img} alt="" />
+                        <img src={this.state.filePreview} id="inputImage" style={{width: "400px"}} className={classes.img} alt="" />
+                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
                       </div>
                     </Grid>
                     <Grid item>
@@ -141,9 +163,29 @@ class Dashboard extends Component {
             <Grid item xs={12} md={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
-                  {this.state.names.map((name, key) => {
-                    return <p key={key}> {name} </p>
-                  })}
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <Grid item style={{width: "50%"}}>
+                      <Typography variant="h3">
+                        English
+                      </Typography>
+                      {this.state.names.map((name, key) => {
+                        return <p key={key}> {name.original} </p>
+                      })}
+                    </Grid>
+                    <Grid item style={{width: "50%"}}>
+                      <Typography variant="h3">
+                        {this.state.selectedLang}
+                      </Typography>
+                      {this.state.names.map((name, key) => {
+                        return <p key={key}> {name.translated} </p>
+                      })}
+                    </Grid>
+                  </Grid>
                 </Paper>
               </div>
             </Grid>

@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 
 module.exports = {
   getLabels: async (image) =>{
-    let list = [];
+    let labels = []
     AWS.config.update({region: process.env.REGION, accessKeyId: process.env.AWSACCESSKEYID, secretAccessKey: process.env.AWSSECRETACCESSKEY});
 
     const client = new AWS.Rekognition();
@@ -23,13 +23,13 @@ module.exports = {
           reject(err)
         } else {
           response.Labels.forEach(async label => {
-                list.push(label.Name);     
+                labels.push(label)
           },
-          resolve(list)
+          resolve(labels)
         )} 
       });
     })
 
-    return list;
+    return labels
   }
 }
