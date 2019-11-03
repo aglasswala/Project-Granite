@@ -6,7 +6,7 @@ module.exports = {
         for(let i = 0; i < words.length; i++){
             await new Promise((resolve,reject) =>{
                 googleTranslate.translate(words[i], 'en', lang, (err, translation) => {
-                    if(err){
+                    if (err) {
                         reject(err);
                     }
                     resolve(translation.translatedText);    
@@ -20,7 +20,3 @@ module.exports = {
     }
 }
     
-
-
-
-

@@ -4,6 +4,8 @@ import { Grid, Button, Paper, withStyles, MenuItem, Select } from '@material-ui/
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
+import { languages } from '../utils/utils'
+
 
 class Dashboard extends Component {
 
@@ -34,6 +36,14 @@ class Dashboard extends Component {
             'content-type': 'multipart/form-data'
         }
     }
+    if (this.state.file.name === "") {
+      this.setState({
+        errors: {
+          err: "Upload a file you fuck"
+        }
+      })
+      return 
+    }
     uploadFile(data, config)
       .then(response => this.setState({ names: response.data }))
       .catch(err => {
@@ -57,7 +67,6 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props
-    console.log(this.state.errors)
     return (
         <div>
           <Grid
@@ -65,7 +74,6 @@ class Dashboard extends Component {
             direction="row"
             justify="center"
             alignItems="center"
-            spacing={24}
           >
             <Grid item xs={12} md={5}>
               <div className={classes.wrapper}>
@@ -91,17 +99,18 @@ class Dashboard extends Component {
                       >
                         <Grid item>
                           <Select
-                            labelId="demo-simple-select-label"
+                            labelid="demo-simple-select-label"
                             id="demo-simple-select"
                             value={this.state.selectedLang}
                             onChange={this.changeLanguage}
                           >
-                            <MenuItem value={"en"}>EN</MenuItem>
-                            <MenuItem value={"ca"}>CA</MenuItem>
-                            <MenuItem value={"ga"}>GA</MenuItem>
+                            {languages.map((lang, key) => {
+                              return <MenuItem key={key} value={lang}>{lang}</MenuItem>
+                            })}
                           </Select>
                         </Grid>
                         <Grid item>
+                          {this.state.errors.err != null ? <p> {this.state.errors.err} </p> : null}
                           <div className={classes.wrapper}>
                             <input
                               accept="image/*"
