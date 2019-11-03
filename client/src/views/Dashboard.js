@@ -90,6 +90,7 @@ class Dashboard extends Component {
     const { box } = this.state
     return (
         <div>
+          <div className={classes.toolbar} />
           <Grid
             container
             direction="row"

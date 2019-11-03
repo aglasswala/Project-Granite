@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import Dashboard from './views/Dashboard'
+
 import NavBar from './components/NavBar'
+import Dashboard from './views/Dashboard.js'
+
 
 class App extends Component {
   render() {

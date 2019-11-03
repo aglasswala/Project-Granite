@@ -7,7 +7,12 @@ const navbarStyles = theme => ({
       },
       title: {
         flexGrow: 1,
+        paddingLeft: 20,
       },
+      icon: {
+        fontSize: 45,
+        paddingLeft: 20,
+      }
 })
 
 export default navbarStyles
