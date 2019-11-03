@@ -66,7 +66,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.selectedLang);
     const { classes } = this.props
     return (
         <div>
