@@ -132,7 +132,7 @@ class Dashboard extends Component {
                           </Select>
                         </Grid>
                         <Grid item>
-                          {this.state.errors.err != null ? <p> {this.state.errors.err} </p> : null}
+                          {this.state.errors.err != null && this.state.filePreview == null ? <p> {this.state.errors.err} </p> : null}
                           <div className={classes.wrapper}>
                             <input
                               accept="image/*"
