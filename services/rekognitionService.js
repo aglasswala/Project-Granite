@@ -1,35 +1,39 @@
-const AWS = require('aws-sdk');
-const dotenv = require('dotenv')
+const AWS = require('aws-sdk')
+  .config
+  .update({
+    region: process.env.REGION,
+    accessKeyId: process.env.AWSACCESSKEYID,
+    secretAccessKey: process.env.AWSSECRETACCESSKEY,
+  });
 
 module.exports = {
-  getLabels: async (image) =>{
-    let labels = []
-    AWS.config.update({region: process.env.REGION, accessKeyId: process.env.AWSACCESSKEYID, secretAccessKey: process.env.AWSSECRETACCESSKEY});
+  getLabels: async (image) => {
+    const labels = [];
 
     const client = new AWS.Rekognition();
     const params = {
       Image: {
         S3Object: {
           Bucket: image.Bucket,
-          Name: image.Key
+          Name: image.Key,
         },
       },
-      MaxLabels: 20
-    }
+      MaxLabels: 20,
+    };
 
-    await new Promise((resolve,reject) =>{
-      client.detectLabels(params, function(err, response) {
+    await new Promise((resolve, reject) => {
+      client.detectLabels(params, (err, response) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          response.Labels.forEach(async label => {
-                labels.push(label)
+          response.Labels.forEach(async (label) => {
+            labels.push(label);
           },
-          resolve(labels)
-        )} 
+          resolve(labels));
+        }
       });
-    })
+    });
 
-    return labels
-  }
-}
+    return labels;
+  },
+};
