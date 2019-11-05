@@ -14,7 +14,7 @@ module.exports = {
           Name: image.Key
         },
       },
-      MaxLabels: 10
+      MaxLabels: 20
     }
 
     await new Promise((resolve,reject) =>{

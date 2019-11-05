@@ -13,16 +13,6 @@ const base64_encode = (file) => {
 }
 
 module.exports = {
-    uploadImage: (req, res) => {
-    	const str = base64_encode(req.file.path)
-    	return imageService.imageUpload(str)
-    		.then(result => {
-    			return res.status(200).send(result)
-    		})
-    		.catch(err => {
-    			return res.status(400).send(err)
-    		})
-	},
 	uploadImageS3: async (req,res) =>{
 		let params = {
 			Bucket: 'granite.project',

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import { AppBar, Toolbar, Typography, IconButton, withStyles, Avatar, SvgIcon, Menu, MenuItem } from '@material-ui/core'
+import { AppBar, Toolbar, Typography, Icon, IconButton, withStyles, Avatar, SvgIcon, Menu, MenuItem } from '@material-ui/core'
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import navbarStyles from '../styles/navbarStyles'
@@ -13,47 +13,28 @@ const GitHub = (props) => {
     )
 }
 
-const NavBar = (props) => {
-    const { classes } = props
-    const [anchorEl, setAnchorEl] = React.useState(null);
+class NavBar extends Component {
 
-    const handleClick = event => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    return ( 
-        <div>
-            <AppBar position="fixed">
-                <Toolbar>
-                    <IconButton href="#"className={classes.icon}>
-                        <Avatar src="https://image.flaticon.com/icons/svg/484/484531.svg"/>
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Project Granite
-                    </Typography>
-                    <IconButton href="//github.com/aglasswala/Project-Granite" target="_blank" title="Github Repository" aria-label="Github Repository" >
-                        <GitHub className={classes.icon} />
-                        
-                    </IconButton>
-                    <IconButton color="inherit" onClick={handleClick} onClose={handleClose}>
-                        <MoreVertIcon />
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
-                        </Menu>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-        </div>
-    )
+    render() {
+        const { classes } = this.props
+        return ( 
+            <div>
+                <AppBar position="fixed">
+                    <Toolbar>
+                        <Icon href="#"className={classes.icon}>
+                            <Avatar src="https://image.flaticon.com/icons/svg/484/484531.svg"/>
+                        </Icon>
+                        <Typography variant="h6" className={classes.title}>
+                            Project Granite
+                        </Typography>
+                        <IconButton href="//github.com/aglasswala/Project-Granite" target="_blank" title="Github Repository" aria-label="Github Repository" >
+                            <GitHub className={classes.icon} />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        )
+    }
 }
 
 export default withStyles(navbarStyles)(NavBar)
