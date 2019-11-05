@@ -70,15 +70,16 @@ class Dashboard extends Component {
   calculateFaceLocation = () => {
     // let clar = this.state.names.filter(name => name.instance.length !== 0)
 
-    // clar = clar[0]
-
     // const image = document.getElementById('inputImage')
     // const width = Number(image.width);
     // const height = Number(image.height);
+
+    // console.log(width)
+    // console.log(height)
     // this.setState({
     //   box: {
     //     leftCol: clar.BoundingBox.Left * width,
-    //     topRow: clar.BoundingBox.Height * height,
+    //     topRow: clar.BoundingBox.Top * height,
     //     rightCol: width - (clar.BoundingBox.Width * width),
     //     bottomRow: height - (clar.BoundingBox.Width * height)
     //   }
@@ -109,7 +110,7 @@ class Dashboard extends Component {
                     <Grid item>
                       <div className={classes.wrapper}>
                         <img src={this.state.filePreview} id="inputImage" style={{width: "400px"}} className={classes.img} alt="" />
-                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
+                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol, zIndex:"100"}}></div>
                       </div>
                     </Grid>
                     <Grid item>

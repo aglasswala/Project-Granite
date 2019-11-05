@@ -21,7 +21,9 @@ module.exports = {
       Body: '',
     };
     const fileStream = fs.createReadStream(req.file.path);
-    fileStream.on('error', (err) => res.status(400).send({ err }));
+    fileStream.on('error', (err) => {
+      return res.status(404).send({ err })
+    });
 
     params.Body = fileStream;
     params.Key = path.basename(req.file.originalname);
@@ -42,7 +44,7 @@ module.exports = {
       .catch((err) => res.status(400).send({ err }));
     const stuff2 = await translateService.translate(stuff, req.body.lang)
       .catch((err) => res.status(400).send({ err }));
-
+      
     return res.status(200).send(stuff2);
   },
 };
