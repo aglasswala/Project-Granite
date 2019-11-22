@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Snackbar } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -16,7 +16,8 @@ class Dashboard extends Component {
     openMenu: false,
     selectedLang: "ga",
     errors: {},
-    box: {}
+    box: {},
+    noFile: false
   }
 
   onChangeHandler = event => {
@@ -28,6 +29,10 @@ class Dashboard extends Component {
   } 
 
   onClickHandler = async () => {
+    if (this.state.errors) {
+      return this.handleNoFileClick()
+    }
+
     const data = new FormData()
 
     data.append('file', this.state.file)
@@ -86,10 +91,23 @@ class Dashboard extends Component {
     // })
   }
 
+  handleNoFileClick = () => {
+    this.setState({
+      noFile: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      noFile: false
+    })
+  }
+
   render() {
     const { classes } = this.props
     const { box } = this.state
     return (
+      <Fragment>
         <div>
           <div className={classes.toolbar} />
           <Grid
@@ -113,48 +131,58 @@ class Dashboard extends Component {
                         <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol, zIndex:"100"}}></div>
                       </div>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{width: "100%"}}>
                       <Grid
                         container
-                        direction="row"
+                        direction="column"
                         justify="center"
-                        alignItems="flex-end"
-                        style={{height: "90%"}}
+                        alignItems="center"
+                        style={{width: "100%"}}
                       >
-                        <Grid item>
+                        <Grid item style={{width: "50%"}}>
                           <Select
-                            labelid="demo-simple-select-label"
-                            id="demo-simple-select"
                             value={this.state.selectedLang}
                             onChange={this.changeLanguage}
+                            style={{width: "100%"}}
                           >
                             {languages.map((lang, key) => {
                               return <MenuItem key={key} value={lang.code}>{lang.language}</MenuItem>
                             })}
                           </Select>
                         </Grid>
-                        <Grid item>
-                          {this.state.errors.err != null && this.state.filePreview == null ? <p> {this.state.errors.err} </p> : null}
-                          <div className={classes.wrapper}>
-                            <input
-                              accept="image/*"
-                              style={{ display: 'none' }}
-                              id="raised-button-file"
-                              multiple
-                              onChange={this.onChangeHandler}
-                              type="file"
-                            />
-                            <label htmlFor="raised-button-file">
-                              <Button variant="contained" component="span">
-                                Upload 
-                              </Button>
-                            </label>
-                          </div>
-                        </Grid>
-                        <Grid item>
-                          <div className={classes.wrapper}>
-                            <Button onClick={this.onClickHandler}>Submit</Button>
-                          </div>
+                        <Grid item style={{width: "50%"}}>
+                          <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                          >  
+
+                            <Grid item style={{width: "50%"}}>
+                              <div className={classes.buttonSpace1}>
+                                <input
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  id="raised-button-file"
+                                  multiple
+                                  onChange={this.onChangeHandler}
+                                  type="file"
+                                />
+                                <label htmlFor="raised-button-file">
+                                  <Button variant="contained" component="span" color="primary" style={{width: "100%"}}>
+                                    Upload 
+                                  </Button>
+                                </label>
+                              </div>
+                            </Grid>
+                            <Grid item style={{width: "50%"}}>
+                              <div className={classes.buttonSpace2}>
+                                <Button onClick={this.onClickHandler} size="large" style={{width: "100%"}}>
+                                  Submit
+                                </Button>
+                              </div>
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -193,6 +221,16 @@ class Dashboard extends Component {
             </Grid>
           </Grid>
         </div>
+         <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={this.state.noFile}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Upload a file you fuck</span>}
+        />
+      </Fragment>
     )
   }
 }

@@ -19,7 +19,7 @@ async function init() {
   app.use(bodyParser.json());
   app.use(cors());
 
-	app.use(express.static("views"))
+  app.use(express.static('views'));
 
   router(app);
   startServer(app);

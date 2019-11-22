@@ -1,9 +1,10 @@
-const AWS = require('aws-sdk')
+const AWS = require('aws-sdk');
+
 AWS.config.update({
-    region: process.env.REGION,
-    accessKeyId: process.env.AWSACCESSKEYID,
-    secretAccessKey: process.env.AWSSECRETACCESSKEY,
-  });
+  region: process.env.REGION,
+  accessKeyId: process.env.AWSACCESSKEYID,
+  secretAccessKey: process.env.AWSSECRETACCESSKEY,
+});
 
 module.exports = {
   getLabels: async (image) => {
