@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Snackbar } from '@material-ui/core'
+import { List, Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Snackbar, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -11,10 +11,34 @@ class Dashboard extends Component {
 
   state = {
     file: { name: "" },
-    names: [],
+    names: [
+      {
+        original: "stuff",
+        translated: "things"
+      },
+      {
+        original: "stuff",
+        translated: "things"
+      },
+      {
+        original: "stuff",
+        translated: "things"
+      },
+      {
+        original: "stuff",
+        translated: "things"
+      },
+      {
+        original: "stuff",
+        translated: "things"
+      },
+    ],
     filePreview: null,
     openMenu: false,
-    selectedLang: "ga",
+    selectedLang: {
+      code: "ga",
+      language: "Irish"
+    },
     errors: {},
     box: {},
     noFile: false
@@ -29,34 +53,29 @@ class Dashboard extends Component {
   } 
 
   onClickHandler = async () => {
-    if (this.state.errors) {
-      return this.handleNoFileClick()
-    }
+    const selLang = languages.filter(lang => lang.language === this.state.selectedLang.language)
 
     const data = new FormData()
-
-    data.append('file', this.state.file)
-    data.append('lang', this.state.selectedLang)
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
         }
     }
+
+    data.append('file', this.state.file)
+    data.append('lang', selLang[0].code)
+
     if (this.state.file.name === "") {
-      this.setState({
-        errors: {
-          err: "Upload a file you fuck"
-        }
-      })
-      return 
+      return this.handleNoFileClick()
     }
-    await uploadFile(data, config)
-      .then(response => this.setState({ names: response.data }))
-      .catch(err => {
-        this.setState({
-          errors: err
-        })
-      })
+
+    // await uploadFile(data, config)
+    //   .then(response => this.setState({ names: response.data }))
+    //   .catch(err => {
+    //     this.setState({
+    //       errors: err
+    //     })
+    //   })
     this.calculateFaceLocation()
   }
 
@@ -68,7 +87,9 @@ class Dashboard extends Component {
 
   changeLanguage = event => {
     this.setState({
-      selectedLang: event.target.value
+      selectedLang: {
+        language: event.target.value
+      } 
     })
   }
 
@@ -128,7 +149,6 @@ class Dashboard extends Component {
                     <Grid item>
                       <div className={classes.wrapper}>
                         <img src={this.state.filePreview} id="inputImage" style={{width: "400px"}} className={classes.img} alt="" />
-                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol, zIndex:"100"}}></div>
                       </div>
                     </Grid>
                     <Grid item style={{width: "100%"}}>
@@ -141,12 +161,12 @@ class Dashboard extends Component {
                       >
                         <Grid item style={{width: "50%"}}>
                           <Select
-                            value={this.state.selectedLang}
+                            value={this.state.selectedLang.language}
                             onChange={this.changeLanguage}
                             style={{width: "100%"}}
                           >
                             {languages.map((lang, key) => {
-                              return <MenuItem key={key} value={lang.code}>{lang.language}</MenuItem>
+                              return <MenuItem key={key} value={lang.language}>{lang.language}</MenuItem>
                             })}
                           </Select>
                         </Grid>
@@ -195,25 +215,44 @@ class Dashboard extends Component {
                 <Paper className={classes.paper}>
                   <Grid
                     container
-                    direction="row"
+                    direction="column"
                     justify="center"
                     alignItems="center"
                   >
-                    <Grid item style={{width: "50%"}}>
-                      <Typography variant="h3">
-                        English
-                      </Typography>
-                      {this.state.names.map((name, key) => {
-                        return <p key={key}> {name.original} </p>
-                      })}
-                    </Grid>
-                    <Grid item style={{width: "50%"}}>
-                      <Typography variant="h3">
-                        {this.state.selectedLang}
-                      </Typography>
-                      {this.state.names.map((name, key) => {
-                        return <p key={key}> {name.translated} </p>
-                      })}
+                    <Grid item>
+                      <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                      >
+                        <Grid item>
+                          <div className={classes.wrapper}>
+                            <Typography variant="h3">
+                               English
+                            </Typography>
+                          </div>
+                        </Grid>
+                        <Grid item>
+                          <div className={classes.wrapper}>
+                            <Typography variant="h3">
+                              {this.state.selectedLang.language}
+                            </Typography>
+                          </div>
+                        </Grid>
+                      </Grid>
+                     </Grid>
+                     <Grid item>
+                      <List>
+                        {this.state.names.map((name, key) => {
+                          return <ListItem key={key}>
+                                   <ListItemText id={key} primary={name.original} />
+                                   <ListItemSecondaryAction>
+                                      {name.translated}
+                                   </ListItemSecondaryAction>
+                                 </ListItem>
+                        })}
+                      </List>
                     </Grid>
                   </Grid>
                 </Paper>
@@ -228,7 +267,7 @@ class Dashboard extends Component {
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">Upload a file you fuck</span>}
+          message={<Typography> Select a file to upload </Typography>}
         />
       </Fragment>
     )
