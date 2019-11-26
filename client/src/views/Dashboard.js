@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -47,6 +47,7 @@ class Dashboard extends Component {
     this.setState({checked: true})
     console.log(this.state.checked)
   }
+
   onChangeHandler = event => {
     const file = this.state.filePreview
     this.setState({
@@ -238,7 +239,7 @@ class Dashboard extends Component {
                     <Grow in={this.state.checked}>
                       <Grid item style={{width: "50%"}}>
                         <Typography variant="h3">
-                          {this.state.selectedLang}
+                          {this.state.selectedLang.language}
                         </Typography>
                         {this.state.names.map((name, key) => {
                           return <p key={key}> {name.translated} </p>
