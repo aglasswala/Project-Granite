@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-import { AppBar, Toolbar, Typography, Icon, IconButton, withStyles, Avatar, SvgIcon, Menu, MenuItem } from '@material-ui/core'
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { AppBar, Toolbar, Typography, Icon, IconButton, withStyles, Avatar, SvgIcon} from '@material-ui/core'
 
 import navbarStyles from '../styles/navbarStyles'
 

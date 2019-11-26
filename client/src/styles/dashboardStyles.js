@@ -17,6 +17,19 @@ const dashboardStyles = theme => ({
 		flexWrap: "wrap",
 		justifyContent: "center",
 		cursor: "pointer"
+	},
+	langSel: {
+		width: "50%"
+	},
+	buttonSpace1: {
+		padding: 10,
+		paddingLeft: 0,
+		paddingRight: 5,
+	},
+	buttonSpace2: {
+		padding: 10,
+		paddingLeft: 5,
+		paddingRight: 0,
 	}
 })
 
