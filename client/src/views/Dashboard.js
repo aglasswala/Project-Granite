@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -16,9 +16,13 @@ class Dashboard extends Component {
     openMenu: false,
     selectedLang: "ga",
     errors: {},
-    box: {}
+    box: {},
+    checked: false
   }
-
+  onCheckedHandler = () =>{
+    this.setState({checked: true})
+    console.log(this.state.checked)
+  }
   onChangeHandler = event => {
     const file = this.state.filePreview
     this.setState({
@@ -46,7 +50,10 @@ class Dashboard extends Component {
       return 
     }
     await uploadFile(data, config)
-      .then(response => this.setState({ names: response.data }))
+      .then(response => 
+        this.setState({ names: response.data }, () =>{
+          this.onCheckedHandler()
+        }))
       .catch(err => {
         this.setState({
           errors: err
@@ -87,6 +94,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -171,22 +179,26 @@ class Dashboard extends Component {
                     justify="center"
                     alignItems="center"
                   >
-                    <Grid item style={{width: "50%"}}>
-                      <Typography variant="h3">
-                        English
-                      </Typography>
-                      {this.state.names.map((name, key) => {
-                        return <p key={key}> {name.original} </p>
-                      })}
-                    </Grid>
-                    <Grid item style={{width: "50%"}}>
-                      <Typography variant="h3">
-                        {this.state.selectedLang}
-                      </Typography>
-                      {this.state.names.map((name, key) => {
-                        return <p key={key}> {name.translated} </p>
-                      })}
-                    </Grid>
+                    <Grow in={this.state.checked}>
+                      <Grid item style={{width: "50%"}}>
+                        <Typography variant="h3">
+                          English
+                        </Typography>
+                        {this.state.names.map((name, key) => {
+                          return <p key={key}> {name.original} </p>
+                        })}
+                      </Grid>
+                    </Grow>
+                    <Grow in={this.state.checked}>
+                      <Grid item style={{width: "50%"}}>
+                        <Typography variant="h3">
+                          {this.state.selectedLang}
+                        </Typography>
+                        {this.state.names.map((name, key) => {
+                          return <p key={key}> {name.translated} </p>
+                        })}
+                      </Grid>
+                    </Grow>
                   </Grid>
                 </Paper>
               </div>
