@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { List, Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Snackbar, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core'
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow } from '@material-ui/core'
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -41,9 +41,12 @@ class Dashboard extends Component {
     },
     errors: {},
     box: {},
-    noFile: false
+    checked: false
   }
-
+  onCheckedHandler = () =>{
+    this.setState({checked: true})
+    console.log(this.state.checked)
+  }
   onChangeHandler = event => {
     const file = this.state.filePreview
     this.setState({
@@ -68,14 +71,16 @@ class Dashboard extends Component {
     if (this.state.file.name === "") {
       return this.handleNoFileClick()
     }
-
-    // await uploadFile(data, config)
-    //   .then(response => this.setState({ names: response.data }))
-    //   .catch(err => {
-    //     this.setState({
-    //       errors: err
-    //     })
-    //   })
+    await uploadFile(data, config)
+      .then(response => 
+        this.setState({ names: response.data }, () =>{
+          this.onCheckedHandler()
+        }))
+      .catch(err => {
+        this.setState({
+          errors: err
+        })
+      })
     this.calculateFaceLocation()
   }
 
@@ -125,6 +130,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -219,41 +225,26 @@ class Dashboard extends Component {
                     justify="center"
                     alignItems="center"
                   >
-                    <Grid item>
-                      <Grid
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="center"
-                      >
-                        <Grid item>
-                          <div className={classes.wrapper}>
-                            <Typography variant="h3">
-                               English
-                            </Typography>
-                          </div>
-                        </Grid>
-                        <Grid item>
-                          <div className={classes.wrapper}>
-                            <Typography variant="h3">
-                              {this.state.selectedLang.language}
-                            </Typography>
-                          </div>
-                        </Grid>
-                      </Grid>
-                     </Grid>
-                     <Grid item>
-                      <List>
+                    <Grow in={this.state.checked}>
+                      <Grid item style={{width: "50%"}}>
+                        <Typography variant="h3">
+                          English
+                        </Typography>
                         {this.state.names.map((name, key) => {
-                          return <ListItem key={key}>
-                                   <ListItemText id={key} primary={name.original} />
-                                   <ListItemSecondaryAction>
-                                      {name.translated}
-                                   </ListItemSecondaryAction>
-                                 </ListItem>
+                          return <p key={key}> {name.original} </p>
                         })}
-                      </List>
-                    </Grid>
+                      </Grid>
+                    </Grow>
+                    <Grow in={this.state.checked}>
+                      <Grid item style={{width: "50%"}}>
+                        <Typography variant="h3">
+                          {this.state.selectedLang}
+                        </Typography>
+                        {this.state.names.map((name, key) => {
+                          return <p key={key}> {name.translated} </p>
+                        })}
+                      </Grid>
+                    </Grow>
                   </Grid>
                 </Paper>
               </div>
