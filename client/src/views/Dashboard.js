@@ -45,15 +45,16 @@ class Dashboard extends Component {
   }
   onCheckedHandler = () =>{
     this.setState({checked: true})
-    console.log(this.state.checked)
   }
 
   onChangeHandler = event => {
+    this.setState({checked: false})
     const file = this.state.filePreview
     this.setState({
       file: event.target.files[0],
-      filePreview: file || URL.createObjectURL(event.target.files[0])
+      filePreview: URL.createObjectURL(event.target.files[0])
     })
+
   } 
 
   onClickHandler = async () => {
@@ -77,6 +78,7 @@ class Dashboard extends Component {
         this.setState({ names: response.data }, () =>{
           this.onCheckedHandler()
         }))
+      
       .catch(err => {
         this.setState({
           errors: err
@@ -131,7 +133,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    
+    console.log(this.state.filePreview)
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -155,7 +157,8 @@ class Dashboard extends Component {
                   >
                     <Grid item>
                       <div className={classes.wrapper}>
-                        <img src={this.state.filePreview} id="inputImage" style={{width: "400px"}} className={classes.img} alt="" />
+                        <img src={this.state.filePreview} id="inputImage" style={{width: "auto"}} className={classes.img} alt="" />
+                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol, zIndex:"100"}}></div>
                       </div>
                     </Grid>
                     <Grid item style={{width: "100%"}}>
