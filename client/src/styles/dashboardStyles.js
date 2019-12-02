@@ -1,13 +1,13 @@
 const dashboardStyles = theme => ({
 	paper: {
-		height: "80vh"
+		height: "85vh",
 	},
 	wrapper: {
-		padding: 20
+		padding: 15
 	},
 	img: {
-		height: "60vh",
-		width: "100%"
+		height: "65vh",
+		maxWidth: "100%",
 	},
 	toolbar: theme.mixins.toolbar,
 	bounding_box: {
