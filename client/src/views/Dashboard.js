@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar } from '@material-ui/core'
+import { TextField, Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
@@ -170,7 +171,15 @@ class Dashboard extends Component {
                         style={{width: "100%"}}
                       >
                         <Grid item style={{width: "50%"}}>
-                          <Select
+                          <Autocomplete
+                            options={languages}
+                            getOptionLabel={option => option.language}
+                            style={{ width: 300 }}
+                            renderInput={params => (
+                              <TextField {...params} label="Select language" variant="outlined" fullWidth />
+                            )}
+                          />
+                          {/* <Select
                             value={this.state.selectedLang.language}
                             onChange={this.changeLanguage}
                             style={{width: "100%"}}
@@ -178,7 +187,7 @@ class Dashboard extends Component {
                             {languages.map((lang, key) => {
                               return <MenuItem key={key} value={lang.language}>{lang.language}</MenuItem>
                             })}
-                          </Select>
+                          </Select> */}
                         </Grid>
                         <Grid item style={{width: "50%"}}>
                           <Grid
