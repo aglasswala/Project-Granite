@@ -9,6 +9,7 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
+
 module.exports = {
   uploadImageS3: async (req, res) => {
     const fileStream = fs.readFileSync(req.file.path)
