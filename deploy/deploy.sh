@@ -5,8 +5,8 @@ set -e
 
 # Lets write the public key of our aws instance
 eval $(ssh-agent -s)
-$key = cat "$PRIVATE_KEY" | base64 -W0 
-ssh-add <(echo $key | base64 -d)
+cat "$PRIVATE_KEY" | base64 -W0 
+ssh-add <(echo "$PRIVATE_KEY" | base64 -d)
 
 ./deploy/disableHostKeyChecking.sh
 
