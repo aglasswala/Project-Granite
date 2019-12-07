@@ -10,3 +10,4 @@ lint:
   stage: test
   script:
     - npm run lint
+    
