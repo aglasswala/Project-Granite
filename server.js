@@ -19,8 +19,6 @@ async function init() {
   app.use(bodyParser.json());
   app.use(cors());
 
-  const something = "asdf"
-
   app.use(express.static('views'));
 
   router(app);
