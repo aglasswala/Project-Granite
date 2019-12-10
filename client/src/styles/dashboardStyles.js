@@ -1,13 +1,13 @@
 const dashboardStyles = theme => ({
 	paper: {
-		height: "80vh"
+		height: "85vh",
 	},
 	wrapper: {
-		padding: 20
+		padding: 15
 	},
 	img: {
-		height: "60vh",
-		width: "100%"
+		height: "65vh",
+		maxWidth: "100%",
 	},
 	toolbar: theme.mixins.toolbar,
 	bounding_box: {
@@ -30,7 +30,19 @@ const dashboardStyles = theme => ({
 		padding: 10,
 		paddingLeft: 5,
 		paddingRight: 0,
-	}
+	},
+	option: {
+		fontSize: 15,
+		'& > span': {
+		  marginRight: 10,
+		  fontSize: 18,
+		},
+	},
+	textField: {
+		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
+		width: 200,
+	}	
 })
 
 export default dashboardStyles

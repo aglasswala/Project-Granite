@@ -162,7 +162,7 @@ export const languages =
 	},
 	{
 		language:"Indonesian",
-		code: "id"
+		code: "language"
 	},
 	{
 		language:"Irish",
@@ -405,7 +405,7 @@ export const languages =
 		code: "xh"
 	},
 	{
-		language:"Yiddish",
+		language:"Ylanguagedish",
 		code: "yi"
 	},
 	{

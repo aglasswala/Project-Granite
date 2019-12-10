@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar } from '@material-ui/core'
-
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar, CircularProgress, TextField, Menu } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab';
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
 import { languages } from '../utils/utils'
@@ -41,12 +41,19 @@ class Dashboard extends Component {
     },
     errors: {},
     box: {},
-    checked: false
+    checked: false,
+    loadingIcon: false
   }
-  onCheckedHandler = () =>{
+  onCheckedHandlerTrue = () =>{
     this.setState({checked: true})
   }
-
+  onCheckedHandlerFalse = () =>{
+    this.setState({checked:false})
+  }
+  loadingIconHandler = () =>{
+    let tempLoadIcon = !this.state.loadingIcon;
+    this.setState({loadingIcon: tempLoadIcon})
+  }
   onChangeHandler = event => {
     this.setState({checked: false})
     const file = this.state.filePreview
@@ -58,6 +65,8 @@ class Dashboard extends Component {
   } 
 
   onClickHandler = async () => {
+    this.onCheckedHandlerFalse()
+    this.loadingIconHandler()
     const selLang = languages.filter(lang => lang.language === this.state.selectedLang.language)
 
     const data = new FormData()
@@ -76,7 +85,8 @@ class Dashboard extends Component {
     await uploadFile(data, config)
       .then(response => 
         this.setState({ names: response.data }, () =>{
-          this.onCheckedHandler()
+          this.onCheckedHandlerTrue()
+          this.loadingIconHandler()
         }))
       
       .catch(err => {
@@ -84,7 +94,7 @@ class Dashboard extends Component {
           errors: err
         })
       })
-    this.calculateFaceLocation()
+    
   }
 
   handleMenuClick = (state) => {
@@ -133,7 +143,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.filePreview)
+    console.log(this.state.selectedLang)
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -149,18 +159,24 @@ class Dashboard extends Component {
             <Grid item xs={12} md={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
-                  <Grid
+                    <Grid 
                     container
                     direction="column"
                     justify="center"
                     alignItems="center"
-                  >
-                    <Grid item>
-                      <div className={classes.wrapper}>
-                        <img src={this.state.filePreview} id="inputImage" style={{width: "auto"}} className={classes.img} alt="" />
-                        <div className={classes.bounding_box} style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol, zIndex:"100"}}></div>
-                      </div>
+                    >
+                      <Grid item>
+                        <div className={classes.wrapper}>
+                          <img src={this.state.filePreview} id="inputImage" className={classes.img} alt="" />
+                        </div>
+                      </Grid>
                     </Grid>
+                  <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="flex-end"
+                  >
                     <Grid item style={{width: "100%"}}>
                       <Grid
                         container
@@ -170,15 +186,20 @@ class Dashboard extends Component {
                         style={{width: "100%"}}
                       >
                         <Grid item style={{width: "50%"}}>
-                          <Select
+                          <Autocomplete
+                            disableClearable = {true}
+                            options={languages}
+                            getOptionLabel={option => option.language}
+                            style = {{width:"100%"}}
+                            onChange = {(event, newValue) => {
+                              this.setState({selectedLang: newValue})
+                              
+                            }}
                             value={this.state.selectedLang.language}
-                            onChange={this.changeLanguage}
-                            style={{width: "100%"}}
-                          >
-                            {languages.map((lang, key) => {
-                              return <MenuItem key={key} value={lang.language}>{lang.language}</MenuItem>
-                            })}
-                          </Select>
+                            renderInput={params => (
+                              <TextField {...params} label="Choose a language" variant="outlined" fullWidth/>
+                            )}
+                          />
                         </Grid>
                         <Grid item style={{width: "50%"}}>
                           <Grid
@@ -220,35 +241,51 @@ class Dashboard extends Component {
                 </Paper>
               </div>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} sm={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
                   <Grid
                     container
-                    direction="column"
+                    direction="row"
                     justify="center"
                     alignItems="center"
                   >
-                    <Grow in={this.state.checked}>
-                      <Grid item style={{width: "50%"}}>
-                        <Typography variant="h3">
-                          English
-                        </Typography>
-                        {this.state.names.map((name, key) => {
-                          return <p key={key}> {name.original} </p>
-                        })}
-                      </Grid>
-                    </Grow>
-                    <Grow in={this.state.checked}>
-                      <Grid item style={{width: "50%"}}>
-                        <Typography variant="h3">
-                          {this.state.selectedLang.language}
-                        </Typography>
-                        {this.state.names.map((name, key) => {
-                          return <p key={key}> {name.translated} </p>
-                        })}
-                      </Grid>
-                    </Grow>
+                    {this.state.loadingIcon ? 
+                          <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="center"
+                          >
+                            <Grid item>
+                              <CircularProgress size = {100}/>
+                            </Grid>
+                          </Grid> : null
+                    }
+                      <Grow in={this.state.checked}>
+                        <Grid item style={{width: "50%", padding: "8px"}}>
+                          <Paper elevation12>
+                            <Typography variant="h3">
+                              English
+                            </Typography>
+                            {this.state.names.map((name, key) => {
+                              return <p key={key}> {name.original} </p>
+                            })}
+                          </Paper>
+                        </Grid>
+                      </Grow>
+                      <Grow in={this.state.checked}>
+                        <Grid item style={{width: "50%", padding:"8px"}}>
+                          <Paper>
+                            <Typography variant="h3">
+                              {this.state.selectedLang.language}
+                            </Typography>
+                            {this.state.names.map((name, key) => {
+                              return <p key={key}> {name.translated} </p>
+                            })}
+                          </Paper>
+                        </Grid>
+                      </Grow>
                   </Grid>
                 </Paper>
               </div>
