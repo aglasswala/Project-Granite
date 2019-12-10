@@ -30,7 +30,19 @@ const dashboardStyles = theme => ({
 		padding: 10,
 		paddingLeft: 5,
 		paddingRight: 0,
-	}
+	},
+	option: {
+		fontSize: 15,
+		'& > span': {
+		  marginRight: 10,
+		  fontSize: 18,
+		},
+	},
+	textField: {
+		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
+		width: 200,
+	}	
 })
 
 export default dashboardStyles

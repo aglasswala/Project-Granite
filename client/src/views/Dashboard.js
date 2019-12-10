@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
-import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar, CircularProgress } from '@material-ui/core'
-
+import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar, CircularProgress, TextField, Menu } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab';
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
 import { languages } from '../utils/utils'
@@ -44,8 +44,11 @@ class Dashboard extends Component {
     checked: false,
     loadingIcon: false
   }
-  onCheckedHandler = () =>{
+  onCheckedHandlerTrue = () =>{
     this.setState({checked: true})
+  }
+  onCheckedHandlerFalse = () =>{
+    this.setState({checked:false})
   }
   loadingIconHandler = () =>{
     let tempLoadIcon = !this.state.loadingIcon;
@@ -62,6 +65,7 @@ class Dashboard extends Component {
   } 
 
   onClickHandler = async () => {
+    this.onCheckedHandlerFalse()
     this.loadingIconHandler()
     const selLang = languages.filter(lang => lang.language === this.state.selectedLang.language)
 
@@ -81,7 +85,7 @@ class Dashboard extends Component {
     await uploadFile(data, config)
       .then(response => 
         this.setState({ names: response.data }, () =>{
-          this.onCheckedHandler()
+          this.onCheckedHandlerTrue()
           this.loadingIconHandler()
         }))
       
@@ -139,6 +143,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.state.selectedLang)
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -181,15 +186,20 @@ class Dashboard extends Component {
                         style={{width: "100%"}}
                       >
                         <Grid item style={{width: "50%"}}>
-                          <Select
+                          <Autocomplete
+                            disableClearable = {true}
+                            options={languages}
+                            getOptionLabel={option => option.language}
+                            style = {{width:"100%"}}
+                            onChange = {(event, newValue) => {
+                              this.setState({selectedLang: newValue})
+                              
+                            }}
                             value={this.state.selectedLang.language}
-                            onChange={this.changeLanguage}
-                            style={{width: "100%"}}
-                          >
-                            {languages.map((lang, key) => {
-                              return <MenuItem key={key} value={lang.language}>{lang.language}</MenuItem>
-                            })}
-                          </Select>
+                            renderInput={params => (
+                              <TextField {...params} label="Choose a language" variant="outlined" fullWidth/>
+                            )}
+                          />
                         </Grid>
                         <Grid item style={{width: "50%"}}>
                           <Grid
@@ -231,12 +241,12 @@ class Dashboard extends Component {
                 </Paper>
               </div>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} sm={5}>
               <div className={classes.wrapper}>
                 <Paper className={classes.paper}>
                   <Grid
                     container
-                    direction="column"
+                    direction="row"
                     justify="center"
                     alignItems="center"
                   >
@@ -253,23 +263,27 @@ class Dashboard extends Component {
                           </Grid> : null
                     }
                       <Grow in={this.state.checked}>
-                        <Grid item style={{width: "50%"}}>
-                          <Typography variant="h3">
-                            English
-                          </Typography>
-                          {this.state.names.map((name, key) => {
-                            return <p key={key}> {name.original} </p>
-                          })}
+                        <Grid item style={{width: "50%", padding: "8px"}}>
+                          <Paper elevation12>
+                            <Typography variant="h3">
+                              English
+                            </Typography>
+                            {this.state.names.map((name, key) => {
+                              return <p key={key}> {name.original} </p>
+                            })}
+                          </Paper>
                         </Grid>
                       </Grow>
                       <Grow in={this.state.checked}>
-                        <Grid item style={{width: "50%"}}>
-                          <Typography variant="h3">
-                            {this.state.selectedLang.language}
-                          </Typography>
-                          {this.state.names.map((name, key) => {
-                            return <p key={key}> {name.translated} </p>
-                          })}
+                        <Grid item style={{width: "50%", padding:"8px"}}>
+                          <Paper>
+                            <Typography variant="h3">
+                              {this.state.selectedLang.language}
+                            </Typography>
+                            {this.state.names.map((name, key) => {
+                              return <p key={key}> {name.translated} </p>
+                            })}
+                          </Paper>
                         </Grid>
                       </Grow>
                   </Grid>
