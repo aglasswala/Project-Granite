@@ -14,8 +14,8 @@ module.exports = {
       Image: {
         Bytes: image,
       },
-      MaxLabels: 16
-    }
+      MaxLabels: 16,
+    };
     await new Promise((resolve, reject) => {
       client.detectLabels(params, (err, response) => {
         if (err) {
