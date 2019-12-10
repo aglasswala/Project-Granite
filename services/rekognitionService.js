@@ -8,8 +8,8 @@ AWS.config.update({
 
 module.exports = {
   getLabels: async (image) => {
-    const labels = []
-    const client = new AWS.Rekognition()
+    const labels = [];
+    const client = new AWS.Rekognition();
     const params = {
       Image: {
         Bytes: image,
@@ -19,16 +19,16 @@ module.exports = {
     await new Promise((resolve, reject) => {
       client.detectLabels(params, (err, response) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
           response.Labels.forEach(async (label) => {
-            labels.push(label)
+            labels.push(label);
           },
-          resolve(labels))
+          resolve(labels));
         }
       });
     });
 
-    return labels
+    return labels;
   },
 };
