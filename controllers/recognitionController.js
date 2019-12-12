@@ -11,12 +11,12 @@ AWS.config.update({
 
 module.exports = {
   uploadImageS3: async (req, res) => {
-    const fileStream = fs.readFileSync(req.file.path)
+    const fileStream = fs.readFileSync(req.file.path);
     const stuff = await rekognitionService.getLabels(fileStream)
       .catch((err) => res.status(400).send({ err }));
     const stuff2 = await translateService.translate(stuff, req.body.lang)
       .catch((err) => res.status(400).send({ err }));
-      
-    return res.status(200).send(stuff2)
+
+    return res.status(200).send(stuff2);
   },
 };

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { TextField, Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Snackbar } from '@material-ui/core'
+import { Select, MenuItem, TextField, Grid, Button, Paper, withStyles, Typography, Grow, Snackbar } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { uploadFile } from '../api/apis.js'
@@ -94,10 +94,11 @@ class Dashboard extends Component {
     })
   }
 
-  changeLanguage = event => {
+  changeLanguage = (event, value) => {
+    console.log(this.state.selectedLang.language)
     this.setState({
       selectedLang: {
-        language: event.target.value
+        language: value
       } 
     })
   }
@@ -134,7 +135,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.filePreview)
     const { classes } = this.props
     const { box } = this.state
     return (
@@ -171,12 +171,11 @@ class Dashboard extends Component {
                         style={{width: "100%"}}
                       >
                         <Grid item style={{width: "50%"}}>
-                          <Autocomplete
+                          <Autocomplete 
                             options={languages}
-                            getOptionLabel={option => option.language}
-                            style={{ width: 300 }}
+                            getOptionLabel={option => option.title}
                             renderInput={params => (
-                              <TextField {...params} label="Select language" variant="outlined" fullWidth />
+                              <TextField {...params} label="Select Language" variant="outlined" fulldiwdth />
                             )}
                           />
                           {/* <Select
@@ -277,5 +276,6 @@ class Dashboard extends Component {
     )
   }
 }
+
 
 export default withStyles(dashboardStyles)(Dashboard)
