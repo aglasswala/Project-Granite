@@ -6,33 +6,11 @@ import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
 import { languages } from '../utils/utils'
 
-
 class Dashboard extends Component {
 
   state = {
     file: { name: "" },
-    names: [
-      {
-        original: "stuff",
-        translated: "things"
-      },
-      {
-        original: "stuff",
-        translated: "things"
-      },
-      {
-        original: "stuff",
-        translated: "things"
-      },
-      {
-        original: "stuff",
-        translated: "things"
-      },
-      {
-        original: "stuff",
-        translated: "things"
-      },
-    ],
+    names: [],
     filePreview: null,
     openMenu: false,
     selectedLang: {
@@ -44,20 +22,24 @@ class Dashboard extends Component {
     checked: false,
     loadingIcon: false
   }
+
   onCheckedHandlerTrue = () =>{
     this.setState({checked: true})
   }
+
   onCheckedHandlerFalse = () =>{
     this.setState({checked:false})
   }
+
   loadingIconHandler = () =>{
     let tempLoadIcon = !this.state.loadingIcon;
     this.setState({loadingIcon: tempLoadIcon})
   }
+
   onChangeHandler = event => {
-    this.setState({checked: false})
     const file = this.state.filePreview
     this.setState({
+      checked: false,
       file: event.target.files[0],
       filePreview: URL.createObjectURL(event.target.files[0])
     })
@@ -82,6 +64,7 @@ class Dashboard extends Component {
     if (this.state.file.name === "") {
       return this.handleNoFileClick()
     }
+
     await uploadFile(data, config)
       .then(response => 
         this.setState({ names: response.data }, () =>{
@@ -94,7 +77,6 @@ class Dashboard extends Component {
           errors: err
         })
       })
-    
   }
 
   handleMenuClick = (state) => {
@@ -111,25 +93,6 @@ class Dashboard extends Component {
     })
   }
 
-  calculateFaceLocation = () => {
-    // let clar = this.state.names.filter(name => name.instance.length !== 0)
-
-    // const image = document.getElementById('inputImage')
-    // const width = Number(image.width);
-    // const height = Number(image.height);
-
-    // console.log(width)
-    // console.log(height)
-    // this.setState({
-    //   box: {
-    //     leftCol: clar.BoundingBox.Left * width,
-    //     topRow: clar.BoundingBox.Top * height,
-    //     rightCol: width - (clar.BoundingBox.Width * width),
-    //     bottomRow: height - (clar.BoundingBox.Width * height)
-    //   }
-    // })
-  }
-
   handleNoFileClick = () => {
     this.setState({
       noFile: true
@@ -143,9 +106,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.selectedLang)
     const { classes } = this.props
-    const { box } = this.state
     return (
       <Fragment>
         <div>
@@ -186,20 +147,17 @@ class Dashboard extends Component {
                         style={{width: "100%"}}
                       >
                         <Grid item style={{width: "50%"}}>
-                          <Autocomplete
-                            disableClearable = {true}
-                            options={languages}
-                            getOptionLabel={option => option.language}
-                            style = {{width:"100%"}}
-                            onChange = {(event, newValue) => {
-                              this.setState({selectedLang: newValue})
-                              
-                            }}
-                            value={this.state.selectedLang.language}
-                            renderInput={params => (
-                              <TextField {...params} label="Choose a language" variant="outlined" fullWidth/>
-                            )}
-                          />
+                          <Select
+                             labelId="demo-simple-select-label"
+                             id="demo-simple-select"
+                             value={this.state.selectedLang.language}
+                             className={classes.langSel}
+                             onChange={this.changeLanguage}
+                           >
+                             {languages.map((lang) => {
+                               return <MenuItem value={lang.language}>{lang.language}</MenuItem>
+                             })}
+                           </Select>
                         </Grid>
                         <Grid item style={{width: "50%"}}>
                           <Grid

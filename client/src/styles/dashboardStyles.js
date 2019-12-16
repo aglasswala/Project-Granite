@@ -19,7 +19,7 @@ const dashboardStyles = theme => ({
 		cursor: "pointer"
 	},
 	langSel: {
-		width: "50%"
+		width: "100%"
 	},
 	buttonSpace1: {
 		padding: 10,

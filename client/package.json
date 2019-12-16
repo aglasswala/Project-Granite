@@ -10,8 +10,11 @@
     "concurrently": "^5.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-particles-js": "^2.7.0",
     "react-scripts": "3.2.0",
-    "react-search": "^2.1.1"
+    "react-scroll-parallax": "^2.2.0",
+    "react-search": "^2.1.1",
+    "react-typing-animation": "^1.6.2"
   },
   "scripts": {
     "start": "react-scripts start",
