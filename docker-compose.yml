@@ -4,7 +4,7 @@ services:
   granite-server: 
     build: .
     volumes: 
-      - $PWD:/usr/src/app
+      - .:/usr/src/app
       - /usr/src/app/node_modules
     ports: 
       - 3001:3001
