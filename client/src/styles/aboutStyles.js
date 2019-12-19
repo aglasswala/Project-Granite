@@ -2,38 +2,18 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const aboutStyles = makeStyles(theme => ({
 	root: {
-		display: "flex",
-	    flexFlow: "column wrap",
-	    alignItems: "space-around",
-	    justifyContent: "center",
-	    alignItems: "center",
-	    height: "50vh",
+	    height: "80vh",
 	    backgroundColor: "white"
 	},
-	copy: {
-		margin: "0.2em 0",
-    	textAlign: "center"
+	wrapper: {
+		padding: 20
 	},
-	barTop: {
-		marginLeft: "0.8em",
-		width: "20em",
-		height: "1.5em",
-		borderTop: "0.45em solid #a179af",
-		borderBottom: "0.45em solid #a179af",
-		transform: "skew(-10deg)"
+	img: {
+		boxShadow: "0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
 	},
-	barBottom: {
-	    marginLeft: "0.8em",
-	    width: "20em",
-	    height: "1.5em",
-	    borderTop: "0.45em solid #a179af",
-	    borderBottom: "0.45em solid #a179af",
-	    transform: "skew(-10deg)",
-	    marginLeft: 0,
-	    marginRight: "0.8em"
-	},
-	letter: {
-	    display: "inline-block"
+	imgWrapper: {
+		paddingRight: 30,
+		marginTop: 10
 	}
 }))
 

@@ -4,7 +4,7 @@ import { Grid, Button, Paper, withStyles, MenuItem, Select, Typography, Grow, Sn
 import { Autocomplete } from '@material-ui/lab';
 import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
-import { languages } from '../utils/utils'
+import { languages } from '../utils/languages'
 
 class Dashboard extends Component {
 

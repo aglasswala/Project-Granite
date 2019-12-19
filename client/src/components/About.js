@@ -1,31 +1,32 @@
 import React, { Fragment } from 'react'
-import { Parallax } from 'react-scroll-parallax';
+
+import {
+	Grid
+} from '@material-ui/core'
 
 import aboutStyles from '../styles/aboutStyles'
-import { ParallaxProvider } from 'react-scroll-parallax'
-
-const copy = 'Parallax'.split('');
 
 const About = () => {
 	const classes = aboutStyles()
 	return (
-		<ParallaxProvider>
-			<div className={classes.root}>
-			    <div className={classes.barTop} />
-			    <span className={`${classes.copy} h1`}>
-			        {copy.map((letter, i) => (
-			            <Parallax
-			                key={`copy-${i}`}
-			                offsetXMax={100 * (i - 3)}
-			                className={classes.letter}
-			            >
-			                {letter}
-			            </Parallax>
-			        ))}
-			    </span>
-			    <div className={classes.barBottom} />
-			</div>
-		</ParallaxProvider>
+		<div className={classes.root}>
+			<Grid
+			  container
+			  direction="row"
+			  justify="space-between"
+			  alignItems="center"
+			  style={{ height: "100%" }}
+			>
+				<Grid item>
+					Oh yeah
+				</Grid>
+				<Grid item style={{height: "100%"}}>
+					<div className={classes.imgWrapper}>
+						<img className={classes.img} src="https://picsum.photos/650/500" alt="really cool picture here" />
+					</div>
+				</Grid>
+			</Grid>
+		</div>
 	)
 }
 
