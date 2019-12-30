@@ -2,21 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import Theme from './utils/theme'
 
-const theme = createMuiTheme({
-  	palette: {
-    	primary: {
-	      	main: '#336699'
-	    },
-	    secondary: {
-	      	main: '#61D095'
-	    }
-  	}
-})
+import "./assets/css/blk-design-system-react.css";
+
 
 ReactDOM.render(	
-	<MuiThemeProvider theme={theme}>
+	<MuiThemeProvider theme={Theme}>
 		<App />
 	</MuiThemeProvider>
 	, document.getElementById('root'));
