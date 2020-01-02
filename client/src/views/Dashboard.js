@@ -6,7 +6,6 @@ import { uploadFile } from '../api/apis.js'
 import dashboardStyles from '../styles/dashboardStyles'
 import { languages } from '../utils/utils'
 
-
 class Dashboard extends Component {
 
   state = {
@@ -57,10 +56,12 @@ class Dashboard extends Component {
   onChangeHandler = event => {
     this.setState({checked: false})
     const file = this.state.filePreview
-    this.setState({
-      file: event.target.files[0],
-      filePreview: URL.createObjectURL(event.target.files[0])
-    })
+    if(event.target.files.length !== 0){
+      this.setState({
+        file: event.target.files[0],
+        filePreview: URL.createObjectURL(event.target.files[0])
+      })
+    }
 
   } 
 
@@ -143,7 +144,8 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.selectedLang)
+    console.log(this.state.file)
+    console.log(this.state.filePreview)
     const { classes } = this.props
     const { box } = this.state
     return (
