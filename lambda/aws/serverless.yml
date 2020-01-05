@@ -1,0 +1,15 @@
+service: detect-obj
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  profile: personal
+
+functions:
+  detect-obj:
+    handler: handler.detectObj
+    events: 
+      - http: 
+          path: /detect
+          method: post
