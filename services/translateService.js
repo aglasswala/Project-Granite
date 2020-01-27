@@ -2,32 +2,32 @@ const googleTranslate = require('google-translate')(process.env.GOOGLE_TRANSLATE
 
 module.exports = {
   translate: async (words, lang) => {
+    const list = [];
     if (lang === 'en') {
-      const list = [];
       words.map((word) => list.push({
         original: word,
         translated: word,
       }));
       return list;
-    }
-    const list = [];
-    for (let i = 0; i < words.length; i -= -1) {
+    }else{
+    for (let i = 0; i < words.length; i++) {
       // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve, reject) => {
-        googleTranslate.translate(words[i].Name, 'en', lang, (err, translation) => {
+        googleTranslate.translate(words[i], 'en', lang, (err, translation) => {
           if (err) {
             reject(err);
+          }else{
+            resolve(translation.translatedText);
+            list.push({
+              original: words[i],
+              translated: translation.translatedText,
+              // instance: words[i].Instances,
+            });
           }
-          resolve(translation.translatedText);
-          list.push({
-            original: words[i].Name,
-            translated: translation.translatedText,
-            instance: words[i].Instances,
-          });
         });
       });
     }
-
-    return list;
+    }
+    return list 
   },
 };

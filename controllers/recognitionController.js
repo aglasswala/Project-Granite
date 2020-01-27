@@ -15,9 +15,9 @@ module.exports = {
     const fileStream = fs.readFileSync(req.file.path);
     const stuff = await rekognitionService.getLabels(fileStream)
       .catch((err) => res.status(400).send({ err }));
-    console.log(req.body.lang)
     const stuff2 = await translateService.translate(stuff, req.body.lang)
       .catch((err) => res.status(400).send({ err }))
+    console.log(stuff2)
     return res.status(200).send(stuff2);
   },
 };
